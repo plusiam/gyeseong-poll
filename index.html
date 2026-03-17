@@ -1,560 +1,713 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>기훈이 형님 집들이 날짜 선정</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --navy: #1a2744;
-    --navy-light: #2a3f6a;
-    --accent: #3b82f6;
-    --accent-glow: #60a5fa;
-    --gold: #f59e0b;
-    --gold-light: #fbbf24;
-    --bg: #f0f4f8;
-    --card-bg: #ffffff;
-    --text: #1e293b;
-    --text-light: #64748b;
-    --success: #10b981;
-    --success-bg: rgba(16, 185, 129, 0.08);
-    --border: #e2e8f0;
-    --row-alt: #f8fafc;
-    --shadow: 0 4px 24px rgba(26, 39, 68, 0.08);
-    --shadow-lg: 0 12px 40px rgba(26, 39, 68, 0.12);
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>기훈이 형님 집들이 날짜 선정</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* ============================
+       CSS 변수 및 기본 설정
+    ============================ */
+    :root {
+      --bg: #f5f0e8;
+      --card: #fffdf7;
+      --ink: #1a1208;
+      --ink2: #4a3f2a;
+      --ink3: #8a7a60;
+      --gold: #c8922a;
+      --gold2: #f0c060;
+      --green: #2e6b4f;
+      --green-light: #d4ede0;
+      --red: #c0392b;
+      --border: #ddd5c0;
+      --shadow: 0 2px 12px rgba(30,20,5,0.10);
+      --radius: 10px;
+    }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  body {
-    font-family: 'Noto Sans KR', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    padding: 20px;
-  }
+    body {
+      background: var(--bg);
+      background-image:
+        radial-gradient(ellipse at 10% 10%, rgba(200,146,42,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse at 90% 90%, rgba(46,107,79,0.07) 0%, transparent 60%);
+      min-height: 100vh;
+      font-family: 'Noto Sans KR', sans-serif;
+      color: var(--ink);
+      padding: 0 0 60px 0;
+    }
 
-  .container {
-    max-width: 1100px;
-    margin: 0 auto;
-  }
+    /* ============================
+       헤더
+    ============================ */
+    .header {
+      background: var(--ink);
+      color: #f5f0e8;
+      text-align: center;
+      padding: 36px 20px 28px;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 18px,
+        rgba(200,146,42,0.06) 18px,
+        rgba(200,146,42,0.06) 19px
+      );
+    }
+    .header-badge {
+      display: inline-block;
+      font-family: 'Noto Serif KR', serif;
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--gold2);
+      border: 1px solid rgba(200,146,42,0.5);
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+      position: relative;
+    }
+    .header h1 {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(20px, 5vw, 28px);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      line-height: 1.3;
+      position: relative;
+    }
+    .header h1 em {
+      color: var(--gold2);
+      font-style: normal;
+    }
+    .header-sub {
+      font-size: 13px;
+      color: rgba(245,240,232,0.65);
+      margin-top: 8px;
+      position: relative;
+      line-height: 1.8;
+    }
+    .header-sub span {
+      display: inline-block;
+      margin: 0 6px;
+    }
+    .header-sub span::before { content: '·'; margin-right: 6px; opacity: 0.5; }
+    .header-sub span:first-child::before { display: none; }
 
-  /* 헤더 */
-  .header {
-    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
-    border-radius: 20px 20px 0 0;
-    padding: 32px 36px 24px;
-    position: relative;
-    overflow: hidden;
-  }
+    /* ============================
+       메인 컨테이너
+    ============================ */
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
 
-  .header::before {
-    content: '';
-    position: absolute;
-    top: -40px; right: -40px;
-    width: 200px; height: 200px;
-    background: radial-gradient(circle, rgba(251,191,36,0.15) 0%, transparent 70%);
-    border-radius: 50%;
-  }
+    /* ============================
+       안내 카드
+    ============================ */
+    .info-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--gold);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin: 24px 0 20px;
+      box-shadow: var(--shadow);
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .info-icon {
+      font-size: 22px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .info-text {
+      font-size: 13.5px;
+      line-height: 1.75;
+      color: var(--ink2);
+    }
+    .info-text strong { color: var(--ink); font-weight: 700; }
 
-  .header-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 100px;
-    padding: 5px 14px;
-    font-size: 12px;
-    color: var(--gold-light);
-    font-weight: 500;
-    margin-bottom: 14px;
-    backdrop-filter: blur(8px);
-  }
+    /* ============================
+       이름 입력
+    ============================ */
+    .name-section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 20px 18px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow);
+    }
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--ink3);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .name-input {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 15px;
+      color: var(--ink);
+      background: var(--bg);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .name-input:focus {
+      border-color: var(--gold);
+      background: #fff;
+    }
+    .name-input::placeholder { color: var(--ink3); }
 
-  .header h1 {
-    font-family: 'Gowun Batang', serif;
-    font-size: 26px;
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: -0.5px;
-    margin-bottom: 6px;
-  }
+    /* ============================
+       날짜 선택 그리드
+    ============================ */
+    .dates-section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 20px 18px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow);
+    }
+    .dates-hint {
+      font-size: 12.5px;
+      color: var(--ink3);
+      margin-bottom: 14px;
+    }
+    .dates-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+      gap: 8px;
+    }
+    .date-btn {
+      position: relative;
+      cursor: pointer;
+      user-select: none;
+    }
+    .date-btn input {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .date-label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 8px 10px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg);
+      transition: all 0.15s ease;
+      text-align: center;
+      gap: 4px;
+    }
+    .date-label:hover {
+      border-color: var(--gold);
+      background: #fff;
+      transform: translateY(-1px);
+      box-shadow: 0 3px 10px rgba(200,146,42,0.15);
+    }
+    .date-day {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
+      font-family: 'Noto Serif KR', serif;
+    }
+    .date-dow {
+      font-size: 11px;
+      color: var(--ink3);
+      font-weight: 400;
+    }
+    .date-mark {
+      font-size: 16px;
+      height: 18px;
+      color: transparent;
+      transition: color 0.15s;
+    }
 
-  .header p {
-    font-size: 13px;
-    color: rgba(255,255,255,0.6);
-    font-weight: 300;
-  }
+    /* 선택된 날짜 스타일 */
+    .date-btn input:checked + .date-label {
+      background: var(--green);
+      border-color: var(--green);
+      transform: translateY(-1px);
+      box-shadow: 0 3px 12px rgba(46,107,79,0.25);
+    }
+    .date-btn input:checked + .date-label .date-day { color: #fff; }
+    .date-btn input:checked + .date-label .date-dow { color: rgba(255,255,255,0.75); }
+    .date-btn input:checked + .date-label .date-mark { color: #7effc0; }
 
-  /* 안내 바 */
-  .info-bar {
-    background: var(--card-bg);
-    border-bottom: 1px solid var(--border);
-    padding: 14px 36px;
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    flex-wrap: wrap;
-    font-size: 13px;
-    color: var(--text-light);
-  }
+    /* 주말 강조 */
+    .date-btn.weekend .date-dow { color: #c0392b; }
+    .date-btn.weekend input:checked + .date-label .date-dow { color: rgba(255,180,180,0.9); }
 
-  .info-bar .tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    background: #eef2ff;
-    color: var(--accent);
-    padding: 4px 10px;
-    border-radius: 6px;
-    font-weight: 500;
-    font-size: 12px;
-  }
+    /* ============================
+       제출 버튼
+    ============================ */
+    .submit-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin: 20px 0 28px;
+    }
+    .btn-submit {
+      width: 100%;
+      max-width: 340px;
+      padding: 15px;
+      background: var(--ink);
+      color: var(--gold2);
+      border: none;
+      border-radius: var(--radius);
+      font-family: 'Noto Serif KR', serif;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 16px rgba(30,20,5,0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-submit:hover {
+      background: #2e2010;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(30,20,5,0.28);
+    }
+    .btn-submit:active { transform: translateY(0); }
+    .btn-submit:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .submit-note {
+      font-size: 12px;
+      color: var(--ink3);
+    }
 
-  /* 테이블 영역 */
-  .table-wrap {
-    background: var(--card-bg);
-    box-shadow: var(--shadow);
-    border-radius: 0 0 20px 20px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
+    /* ============================
+       상태 메시지
+    ============================ */
+    .status-msg {
+      display: none;
+      padding: 13px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      text-align: center;
+      margin-bottom: 16px;
+      animation: fadeIn 0.3s ease;
+    }
+    .status-msg.success {
+      display: block;
+      background: var(--green-light);
+      color: var(--green);
+      border: 1px solid #a0d4b8;
+    }
+    .status-msg.error {
+      display: block;
+      background: #fde8e6;
+      color: var(--red);
+      border: 1px solid #f5b8b4;
+    }
+    .status-msg.loading {
+      display: block;
+      background: #f0ead8;
+      color: var(--ink2);
+      border: 1px solid var(--border);
+    }
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 820px;
-  }
+    /* ============================
+       결과 섹션
+    ============================ */
+    .result-section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 20px 18px;
+      box-shadow: var(--shadow);
+    }
+    .result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .result-total {
+      font-size: 12.5px;
+      color: var(--ink3);
+      background: var(--bg);
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+    }
+    .result-total strong { color: var(--gold); font-weight: 700; }
+    .result-list { display: flex; flex-direction: column; gap: 8px; }
+    .result-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .result-date {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink2);
+      min-width: 74px;
+      flex-shrink: 0;
+    }
+    .result-bar-wrap {
+      flex: 1;
+      background: #ece8de;
+      border-radius: 4px;
+      height: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+    .result-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--green) 0%, #3d8c65 100%);
+      border-radius: 4px;
+      transition: width 0.7s cubic-bezier(0.4,0,0.2,1);
+      min-width: 0;
+    }
+    .result-bar.top {
+      background: linear-gradient(90deg, var(--gold) 0%, #e0a030 100%);
+    }
+    .result-count {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink2);
+      min-width: 28px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .result-count.top { color: var(--gold); }
+    .result-row.top .result-date { font-weight: 700; color: var(--ink); }
 
-  /* 테이블 헤더 */
-  thead th {
-    padding: 0;
-    background: var(--navy);
-    color: #fff;
-    font-weight: 500;
-    font-size: 12px;
-    text-align: center;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-  }
+    /* 최다 득표 배지 */
+    .top-badge {
+      font-size: 10px;
+      background: var(--gold);
+      color: #fff;
+      padding: 2px 7px;
+      border-radius: 10px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      flex-shrink: 0;
+    }
 
-  thead th .date-head {
-    padding: 14px 6px 4px;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: -0.3px;
-  }
+    /* 결과 없음 */
+    .no-result {
+      text-align: center;
+      padding: 24px 0 10px;
+      color: var(--ink3);
+      font-size: 14px;
+    }
 
-  thead th .day-label {
-    padding: 0 6px 4px;
-    font-size: 11px;
-    font-weight: 300;
-    opacity: 0.65;
-  }
+    /* 새로고침 버튼 */
+    .btn-refresh {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      color: var(--ink3);
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 4px 11px;
+      cursor: pointer;
+      font-family: 'Noto Sans KR', sans-serif;
+      transition: all 0.15s;
+    }
+    .btn-refresh:hover {
+      color: var(--ink2);
+      border-color: var(--ink3);
+      background: var(--bg);
+    }
+    .spin { display: inline-block; }
+    .spin.rotating { animation: spin 0.8s linear infinite; }
 
-  thead th .time-label {
-    padding: 2px 6px 10px;
-    font-size: 10px;
-    font-weight: 400;
-    color: var(--gold-light);
-  }
+    /* ============================
+       애니메이션
+    ============================ */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
 
-  thead th.name-col {
-    width: 100px;
-    min-width: 100px;
-    padding: 14px 12px;
-    font-size: 13px;
-    font-weight: 600;
-    position: sticky;
-    left: 0;
-    z-index: 20;
-    background: var(--navy);
-  }
-
-  thead th.remark-col {
-    width: 80px;
-    min-width: 80px;
-    padding: 14px 8px;
-    font-size: 12px;
-  }
-
-  thead th.weekend {
-    background: #1e3158;
-  }
-
-  /* 테이블 바디 */
-  tbody tr {
-    transition: background 0.15s;
-  }
-
-  tbody tr:nth-child(even) {
-    background: var(--row-alt);
-  }
-
-  tbody tr:hover {
-    background: #eef4ff;
-  }
-
-  tbody td {
-    padding: 0;
-    text-align: center;
-    vertical-align: middle;
-    border-bottom: 1px solid var(--border);
-    height: 48px;
-  }
-
-  tbody td.name-cell {
-    font-weight: 600;
-    font-size: 14px;
-    color: var(--navy);
-    letter-spacing: -0.3px;
-    padding: 0 10px;
-    position: sticky;
-    left: 0;
-    background: inherit;
-    z-index: 5;
-    border-right: 2px solid var(--border);
-    white-space: nowrap;
-  }
-
-  tbody tr:nth-child(even) td.name-cell {
-    background: var(--row-alt);
-  }
-
-  tbody tr:hover td.name-cell {
-    background: #eef4ff;
-  }
-
-  /* 투표 셀 버튼 */
-  .vote-cell {
-    width: 100%;
-    height: 48px;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    font-size: 22px;
-    color: transparent;
-    transition: all 0.15s ease;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .vote-cell:hover {
-    background: rgba(59, 130, 246, 0.06);
-  }
-
-  .vote-cell::after {
-    content: '';
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    border: 2px dashed #d1d5db;
-    transition: all 0.2s ease;
-    opacity: 0.4;
-  }
-
-  .vote-cell:hover::after {
-    border-color: var(--accent);
-    opacity: 0.7;
-    transform: scale(1.08);
-  }
-
-  .vote-cell.selected {
-    color: var(--success);
-    background: var(--success-bg);
-  }
-
-  .vote-cell.selected::after {
-    content: '○';
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: auto;
-    height: auto;
-    border: none;
-    opacity: 1;
-    font-size: 26px;
-    font-weight: 900;
-    color: var(--success);
-    transform: scale(1);
-    animation: popIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-
-  @keyframes popIn {
-    0% { transform: scale(0.3); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-  }
-
-  .vote-cell.weekend-cell {
-    background: rgba(251, 191, 36, 0.04);
-  }
-
-  .vote-cell.weekend-cell.selected {
-    background: rgba(16, 185, 129, 0.08);
-  }
-
-  /* 합계 행 */
-  tfoot td {
-    padding: 14px 6px;
-    background: linear-gradient(135deg, #fefce8 0%, #fef9c3 100%);
-    font-weight: 700;
-    font-size: 18px;
-    color: var(--navy);
-    text-align: center;
-    border-top: 2px solid var(--gold);
-    position: relative;
-  }
-
-  tfoot td.name-cell {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-light);
-    background: linear-gradient(135deg, #fefce8 0%, #fef9c3 100%);
-    position: sticky;
-    left: 0;
-    z-index: 5;
-  }
-
-  tfoot .max-count {
-    color: var(--success);
-    position: relative;
-  }
-
-  tfoot .max-count::after {
-    content: '★';
-    position: absolute;
-    top: -2px;
-    right: calc(50% - 22px);
-    font-size: 10px;
-    color: var(--gold);
-    animation: twinkle 1.5s ease-in-out infinite;
-  }
-
-  @keyframes twinkle {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(0.8); }
-  }
-
-  /* 하단 요약 */
-  .summary {
-    margin-top: 20px;
-    background: var(--card-bg);
-    border-radius: 16px;
-    padding: 24px 32px;
-    box-shadow: var(--shadow);
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-
-  .summary-card {
-    flex: 1;
-    min-width: 200px;
-    padding: 16px 20px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #f0f4ff 0%, #e8eeff 100%);
-    border: 1px solid rgba(59, 130, 246, 0.12);
-  }
-
-  .summary-card.best {
-    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
-    border: 1px solid rgba(16, 185, 129, 0.2);
-  }
-
-  .summary-card .label {
-    font-size: 11px;
-    color: var(--text-light);
-    font-weight: 500;
-    margin-bottom: 6px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .summary-card .value {
-    font-family: 'Gowun Batang', serif;
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--navy);
-  }
-
-  .summary-card.best .value {
-    color: #047857;
-  }
-
-  /* 푸터 안내 */
-  .footer-note {
-    margin-top: 16px;
-    padding: 16px 24px;
-    background: rgba(255,255,255,0.6);
-    border-radius: 12px;
-    font-size: 12px;
-    color: var(--text-light);
-    line-height: 1.8;
-  }
-
-  .footer-note strong {
-    color: var(--text);
-  }
-
-  /* 반응형 */
-  @media (max-width: 768px) {
-    body { padding: 10px; }
-    .header { padding: 24px 20px 18px; border-radius: 14px 14px 0 0; }
-    .header h1 { font-size: 20px; }
-    .info-bar { padding: 10px 16px; gap: 12px; }
-    .summary { flex-direction: column; padding: 16px; }
-    .table-wrap { border-radius: 0 0 14px 14px; }
-  }
-</style>
+    /* ============================
+       반응형
+    ============================ */
+    @media (max-width: 400px) {
+      .dates-grid { grid-template-columns: repeat(3, 1fr); }
+      .header h1 { font-size: 18px; }
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-  <div class="header">
-    <div class="header-badge">🎓 2026 계성 교대 동문회</div>
-    <h1>기훈이 형님 집들이 날짜 선정</h1>
-    <p>가능한 날짜를 클릭하여 ○ 표시해 주세요 · 3월 25일 ~ 4월 5일</p>
-  </div>
 
-  <div class="info-bar">
-    <span class="tag">🕐 17:00~</span>
-    <span class="tag">📍 대구 남구 대명로 272 힐스테이트대명센트럴2차 101동 3602호</span>
-    <span>가능한 날짜에 ○ 표시해 주시면 최다 참석일로 확정합니다</span>
-  </div>
-
-  <div class="table-wrap">
-    <table id="voteTable">
-      <thead>
-        <tr id="headerRow"></tr>
-      </thead>
-      <tbody id="voteBody"></tbody>
-      <tfoot>
-        <tr id="totalRow"></tr>
-      </tfoot>
-    </table>
-  </div>
-
-  <div class="summary" id="summaryArea"></div>
-
-  <div class="footer-note">
-    <strong>📋 안내사항</strong><br>
-    · 가능한 날짜를 모두 선택해 주세요 (복수 선택 가능)<br>
-    · 최다 참석 가능일로 날짜를 확정합니다<br>
-    · 장소 및 세부 일정은 추후 공지 예정입니다
+<!-- 헤더 -->
+<div class="header">
+  <div class="header-badge">🎓 2026 계성 교대 동문회</div>
+  <h1>기훈이 형님 <em>집들이</em> 날짜 선정</h1>
+  <div class="header-sub">
+    <span>17:00~</span>
+    <span>대구 남구 힐스테이트대명센트럴2차 101동 3602호</span>
   </div>
 </div>
 
+<div class="container">
+
+  <!-- 안내 -->
+  <div class="info-card">
+    <div class="info-icon">📋</div>
+    <div class="info-text">
+      <strong>가능한 날짜를 모두 선택</strong>해 주세요 (복수 선택 가능)<br>
+      최다 참석 가능일로 날짜가 확정됩니다.<br>
+      장소·세부 일정은 추후 공지 예정입니다.
+    </div>
+  </div>
+
+  <!-- 이름 입력 -->
+  <div class="name-section">
+    <div class="section-label">참석자 이름</div>
+    <input
+      type="text"
+      id="nameInput"
+      class="name-input"
+      placeholder="이름을 입력해 주세요"
+      maxlength="10"
+      autocomplete="off"
+    >
+  </div>
+
+  <!-- 날짜 선택 -->
+  <div class="dates-section">
+    <div class="section-label">가능한 날짜 선택 <span style="color:var(--gold);font-size:11px;">(3월 25일 ~ 4월 5일)</span></div>
+    <div class="dates-hint">가능한 날짜를 모두 클릭해 주세요 ○</div>
+    <div class="dates-grid" id="datesGrid">
+      <!-- JS로 동적 생성 -->
+    </div>
+  </div>
+
+  <!-- 상태 메시지 -->
+  <div class="status-msg" id="statusMsg"></div>
+
+  <!-- 제출 -->
+  <div class="submit-area">
+    <button class="btn-submit" id="submitBtn" onclick="submitVote()">
+      ✓ 투표 제출하기
+    </button>
+    <div class="submit-note">* 같은 이름으로 재제출하면 이전 응답이 업데이트됩니다</div>
+  </div>
+
+  <!-- 결과 -->
+  <div class="result-section">
+    <div class="result-header">
+      <div class="section-label" style="margin-bottom:0">📊 실시간 현황</div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div class="result-total" id="totalCount">참여자 <strong>0</strong>명</div>
+        <button class="btn-refresh" onclick="loadResults()">
+          <span class="spin" id="refreshIcon">↻</span> 새로고침
+        </button>
+      </div>
+    </div>
+    <div class="result-list" id="resultList">
+      <div class="no-result">투표 결과를 불러오는 중...</div>
+    </div>
+  </div>
+
+</div>
+
 <script>
-  // 회원 명단
-  const members = [
-    '강준식', '김무경', '김상한', '김희준', '박은성', '설성석',
-    '손병욱', '여한기', '윤상훈', '이성일', '주찬일', '채진수', '현기훈'
+  // ==========================================
+  // 설정값
+  // ==========================================
+
+  // Apps Script 웹 앱 URL
+  const API_URL = 'https://script.google.com/macros/s/AKfycbz7jdhQqO1P1h77jVwBpJA1CFK-7i-scEtqo6fBXIblGtYcbZV5QoMLGQPImEzUWZksEQ/exec';
+
+  // 날짜 목록 (날짜 | 요일 | 주말여부)
+  const DATES = [
+    { key: '3/25(화)', day: '3/25', dow: '화' },
+    { key: '3/26(수)', day: '3/26', dow: '수' },
+    { key: '3/27(목)', day: '3/27', dow: '목' },
+    { key: '3/28(금)', day: '3/28', dow: '금' },
+    { key: '3/29(토)', day: '3/29', dow: '토', weekend: true },
+    { key: '3/30(일)', day: '3/30', dow: '일', weekend: true },
+    { key: '4/1(화)',  day: '4/1',  dow: '화' },
+    { key: '4/2(수)',  day: '4/2',  dow: '수' },
+    { key: '4/3(목)',  day: '4/3',  dow: '목' },
+    { key: '4/4(금)',  day: '4/4',  dow: '금' },
+    { key: '4/5(토)',  day: '4/5',  dow: '토', weekend: true },
   ];
 
-  // 날짜 생성 (3/25 ~ 4/5)
-  const dates = [];
-  const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
-  for (let d = 25; d <= 31; d++) {
-    const dt = new Date(2026, 2, d); // 3월
-    dates.push({ month: 3, day: d, dow: dayNames[dt.getDay()], isWeekend: dt.getDay() === 0 || dt.getDay() === 6 });
-  }
-  for (let d = 1; d <= 5; d++) {
-    const dt = new Date(2026, 3, d); // 4월
-    dates.push({ month: 4, day: d, dow: dayNames[dt.getDay()], isWeekend: dt.getDay() === 0 || dt.getDay() === 6 });
-  }
-
-  // 투표 상태 저장 (localStorage 사용 안 함 — 메모리에 유지)
-  const votes = {};
-  members.forEach(m => { votes[m] = new Array(dates.length).fill(false); });
-
-  // 헤더 렌더링
-  function renderHeader() {
-    const row = document.getElementById('headerRow');
-    row.innerHTML = '<th class="name-col">이름</th>';
-    dates.forEach(d => {
-      const cls = d.isWeekend ? 'weekend' : '';
-      row.innerHTML += `<th class="${cls}">
-        <div class="date-head">${d.month}/${d.day}</div>
-        <div class="day-label">${d.dow}요일</div>
-        <div class="time-label">17:00~</div>
-      </th>`;
-    });
+  // ==========================================
+  // 날짜 버튼 생성
+  // ==========================================
+  function buildDateGrid() {
+    const grid = document.getElementById('datesGrid');
+    grid.innerHTML = DATES.map((d, i) => `
+      <label class="date-btn ${d.weekend ? 'weekend' : ''}">
+        <input type="checkbox" name="date" value="${d.key}" id="d${i}">
+        <div class="date-label">
+          <span class="date-day">${d.day}</span>
+          <span class="date-dow">${d.dow}</span>
+          <span class="date-mark">○</span>
+        </div>
+      </label>
+    `).join('');
   }
 
-  // 바디 렌더링
-  function renderBody() {
-    const body = document.getElementById('voteBody');
-    body.innerHTML = '';
-    members.forEach((name, mi) => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `<td class="name-cell">${name}</td>`;
-      dates.forEach((d, di) => {
-        const td = document.createElement('td');
-        const btn = document.createElement('button');
-        btn.className = 'vote-cell' + (d.isWeekend ? ' weekend-cell' : '') + (votes[name][di] ? ' selected' : '');
-        btn.setAttribute('aria-label', `${name} ${d.month}/${d.day}`);
-        btn.addEventListener('click', () => toggleVote(name, di, btn));
-        td.appendChild(btn);
-        tr.appendChild(td);
-      });
-      body.appendChild(tr);
-    });
-  }
-
-  // 토글
-  function toggleVote(name, dateIdx, btn) {
-    votes[name][dateIdx] = !votes[name][dateIdx];
-    btn.classList.toggle('selected');
-    updateTotals();
-  }
-
-  // 합계 업데이트
-  function updateTotals() {
-    const totals = dates.map((_, di) => members.reduce((sum, m) => sum + (votes[m][di] ? 1 : 0), 0));
-    const maxVal = Math.max(...totals, 0);
-
-    const row = document.getElementById('totalRow');
-    row.innerHTML = '<td class="name-cell">참석 가능</td>';
-    totals.forEach((t, i) => {
-      const cls = (t > 0 && t === maxVal) ? ' class="max-count"' : '';
-      row.innerHTML += `<td${cls}>${t > 0 ? t : '-'}</td>`;
-    });
-
-    // 요약 영역
-    const totalVotes = totals.reduce((a, b) => a + b, 0);
-    const bestDates = [];
-    if (maxVal > 0) {
-      totals.forEach((t, i) => {
-        if (t === maxVal) bestDates.push(`${dates[i].month}/${dates[i].day}(${dates[i].dow})`);
-      });
+  // ==========================================
+  // 투표 제출
+  // ==========================================
+  async function submitVote() {
+    const name = document.getElementById('nameInput').value.trim();
+    if (!name) {
+      showStatus('이름을 입력해 주세요 😊', 'error');
+      document.getElementById('nameInput').focus();
+      return;
     }
-    const voterCount = members.filter(m => votes[m].some(v => v)).length;
 
-    const summary = document.getElementById('summaryArea');
-    summary.innerHTML = `
-      <div class="summary-card">
-        <div class="label">투표 참여</div>
-        <div class="value">${voterCount} / ${members.length}명</div>
-      </div>
-      <div class="summary-card best">
-        <div class="label">최다 참석 가능일</div>
-        <div class="value">${bestDates.length > 0 ? bestDates.join(', ') : '투표를 시작해주세요'}</div>
-      </div>
-      <div class="summary-card">
-        <div class="label">최다 참석 인원</div>
-        <div class="value">${maxVal > 0 ? maxVal + '명' : '-'}</div>
-      </div>
-    `;
+    // 선택된 날짜 수집
+    const selected = [...document.querySelectorAll('input[name="date"]:checked')]
+      .map(el => el.value);
+
+    if (selected.length === 0) {
+      showStatus('가능한 날짜를 하나 이상 선택해 주세요!', 'error');
+      return;
+    }
+
+    // 버튼 비활성화
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = '제출 중...';
+    showStatus('투표를 저장하고 있습니다...', 'loading');
+
+    try {
+      // Apps Script는 CORS 때문에 no-cors 사용
+      await fetch(API_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, dates: selected })
+      });
+
+      showStatus(`✓ ${name}님의 투표가 저장되었습니다! (${selected.length}개 날짜 선택)`, 'success');
+      btn.textContent = '✓ 제출 완료!';
+
+      // 결과 새로고침
+      setTimeout(() => loadResults(), 1200);
+
+      // 3초 후 버튼 복구
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.textContent = '✓ 투표 제출하기';
+      }, 3000);
+
+    } catch (err) {
+      showStatus('오류가 발생했습니다. 잠시 후 다시 시도해 주세요.', 'error');
+      btn.disabled = false;
+      btn.textContent = '✓ 투표 제출하기';
+    }
   }
 
-  // 초기 렌더링
-  renderHeader();
-  renderBody();
-  updateTotals();
+  // ==========================================
+  // 결과 불러오기
+  // ==========================================
+  async function loadResults() {
+    const icon = document.getElementById('refreshIcon');
+    icon.classList.add('rotating');
+
+    try {
+      const res = await fetch(API_URL + '?t=' + Date.now());
+      const data = await res.json();
+
+      document.getElementById('totalCount').innerHTML =
+        `참여자 <strong>${data.total}</strong>명`;
+
+      renderResults(data.counts, data.total);
+    } catch (err) {
+      document.getElementById('resultList').innerHTML =
+        '<div class="no-result">결과를 불러오지 못했습니다. 새로고침 버튼을 눌러주세요.</div>';
+    } finally {
+      icon.classList.remove('rotating');
+    }
+  }
+
+  // ==========================================
+  // 결과 렌더링
+  // ==========================================
+  function renderResults(counts, total) {
+    const list = document.getElementById('resultList');
+
+    if (!counts || total === 0) {
+      list.innerHTML = '<div class="no-result">아직 투표한 분이 없습니다. 첫 번째로 투표해 보세요! 🙂</div>';
+      return;
+    }
+
+    // 최다 득표 찾기
+    const maxCount = Math.max(...DATES.map(d => counts[d.key] || 0));
+
+    list.innerHTML = DATES.map(d => {
+      const cnt = counts[d.key] || 0;
+      const pct = maxCount > 0 ? (cnt / maxCount) * 100 : 0;
+      const isTop = cnt === maxCount && cnt > 0;
+
+      return `
+        <div class="result-row ${isTop ? 'top' : ''}">
+          <div class="result-date">${d.day}(${d.dow})</div>
+          <div class="result-bar-wrap">
+            <div class="result-bar ${isTop ? 'top' : ''}" style="width:${pct}%"></div>
+          </div>
+          <div class="result-count ${isTop ? 'top' : ''}">${cnt}명</div>
+          ${isTop ? '<div class="top-badge">최다</div>' : '<div style="min-width:30px"></div>'}
+        </div>
+      `;
+    }).join('');
+  }
+
+  // ==========================================
+  // 상태 메시지 표시
+  // ==========================================
+  function showStatus(msg, type) {
+    const el = document.getElementById('statusMsg');
+    el.textContent = msg;
+    el.className = 'status-msg ' + type;
+    // 성공/에러는 4초 후 자동 숨김
+    if (type !== 'loading') {
+      setTimeout(() => { el.className = 'status-msg'; }, 4000);
+    }
+  }
+
+  // ==========================================
+  // 초기 실행
+  // ==========================================
+  buildDateGrid();
+  loadResults();
+
+  // 30초마다 결과 자동 갱신
+  setInterval(loadResults, 30000);
 </script>
 </body>
 </html>
