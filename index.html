@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 계성고 동문회 1차 정모 날짜 투표</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1a2744;
+    --navy-light: #2a3f6a;
+    --accent: #3b82f6;
+    --accent-glow: #60a5fa;
+    --gold: #f59e0b;
+    --gold-light: #fbbf24;
+    --bg: #f0f4f8;
+    --card-bg: #ffffff;
+    --text: #1e293b;
+    --text-light: #64748b;
+    --success: #10b981;
+    --success-bg: rgba(16, 185, 129, 0.08);
+    --border: #e2e8f0;
+    --row-alt: #f8fafc;
+    --shadow: 0 4px 24px rgba(26, 39, 68, 0.08);
+    --shadow-lg: 0 12px 40px rgba(26, 39, 68, 0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* 헤더 */
+  .header {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    border-radius: 20px 20px 0 0;
+    padding: 32px 36px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(251,191,36,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 100px;
+    padding: 5px 14px;
+    font-size: 12px;
+    color: var(--gold-light);
+    font-weight: 500;
+    margin-bottom: 14px;
+    backdrop-filter: blur(8px);
+  }
+
+  .header h1 {
+    font-family: 'Gowun Batang', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+
+  .header p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    font-weight: 300;
+  }
+
+  /* 안내 바 */
+  .info-bar {
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 36px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: var(--text-light);
+  }
+
+  .info-bar .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #eef2ff;
+    color: var(--accent);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 12px;
+  }
+
+  /* 테이블 영역 */
+  .table-wrap {
+    background: var(--card-bg);
+    box-shadow: var(--shadow);
+    border-radius: 0 0 20px 20px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 820px;
+  }
+
+  /* 테이블 헤더 */
+  thead th {
+    padding: 0;
+    background: var(--navy);
+    color: #fff;
+    font-weight: 500;
+    font-size: 12px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  thead th .date-head {
+    padding: 14px 6px 4px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+
+  thead th .day-label {
+    padding: 0 6px 4px;
+    font-size: 11px;
+    font-weight: 300;
+    opacity: 0.65;
+  }
+
+  thead th .time-label {
+    padding: 2px 6px 10px;
+    font-size: 10px;
+    font-weight: 400;
+    color: var(--gold-light);
+  }
+
+  thead th.name-col {
+    width: 100px;
+    min-width: 100px;
+    padding: 14px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    position: sticky;
+    left: 0;
+    z-index: 20;
+    background: var(--navy);
+  }
+
+  thead th.remark-col {
+    width: 80px;
+    min-width: 80px;
+    padding: 14px 8px;
+    font-size: 12px;
+  }
+
+  thead th.weekend {
+    background: #1e3158;
+  }
+
+  /* 테이블 바디 */
+  tbody tr {
+    transition: background 0.15s;
+  }
+
+  tbody tr:nth-child(even) {
+    background: var(--row-alt);
+  }
+
+  tbody tr:hover {
+    background: #eef4ff;
+  }
+
+  tbody td {
+    padding: 0;
+    text-align: center;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--border);
+    height: 48px;
+  }
+
+  tbody td.name-cell {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--navy);
+    letter-spacing: -0.3px;
+    padding: 0 10px;
+    position: sticky;
+    left: 0;
+    background: inherit;
+    z-index: 5;
+    border-right: 2px solid var(--border);
+    white-space: nowrap;
+  }
+
+  tbody tr:nth-child(even) td.name-cell {
+    background: var(--row-alt);
+  }
+
+  tbody tr:hover td.name-cell {
+    background: #eef4ff;
+  }
+
+  /* 투표 셀 버튼 */
+  .vote-cell {
+    width: 100%;
+    height: 48px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 22px;
+    color: transparent;
+    transition: all 0.15s ease;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .vote-cell:hover {
+    background: rgba(59, 130, 246, 0.06);
+  }
+
+  .vote-cell::after {
+    content: '';
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px dashed #d1d5db;
+    transition: all 0.2s ease;
+    opacity: 0.4;
+  }
+
+  .vote-cell:hover::after {
+    border-color: var(--accent);
+    opacity: 0.7;
+    transform: scale(1.08);
+  }
+
+  .vote-cell.selected {
+    color: var(--success);
+    background: var(--success-bg);
+  }
+
+  .vote-cell.selected::after {
+    content: '○';
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: auto;
+    border: none;
+    opacity: 1;
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--success);
+    transform: scale(1);
+    animation: popIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes popIn {
+    0% { transform: scale(0.3); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .vote-cell.weekend-cell {
+    background: rgba(251, 191, 36, 0.04);
+  }
+
+  .vote-cell.weekend-cell.selected {
+    background: rgba(16, 185, 129, 0.08);
+  }
+
+  /* 합계 행 */
+  tfoot td {
+    padding: 14px 6px;
+    background: linear-gradient(135deg, #fefce8 0%, #fef9c3 100%);
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--navy);
+    text-align: center;
+    border-top: 2px solid var(--gold);
+    position: relative;
+  }
+
+  tfoot td.name-cell {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-light);
+    background: linear-gradient(135deg, #fefce8 0%, #fef9c3 100%);
+    position: sticky;
+    left: 0;
+    z-index: 5;
+  }
+
+  tfoot .max-count {
+    color: var(--success);
+    position: relative;
+  }
+
+  tfoot .max-count::after {
+    content: '★';
+    position: absolute;
+    top: -2px;
+    right: calc(50% - 22px);
+    font-size: 10px;
+    color: var(--gold);
+    animation: twinkle 1.5s ease-in-out infinite;
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  /* 하단 요약 */
+  .summary {
+    margin-top: 20px;
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 24px 32px;
+    box-shadow: var(--shadow);
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .summary-card {
+    flex: 1;
+    min-width: 200px;
+    padding: 16px 20px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #f0f4ff 0%, #e8eeff 100%);
+    border: 1px solid rgba(59, 130, 246, 0.12);
+  }
+
+  .summary-card.best {
+    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+  }
+
+  .summary-card .label {
+    font-size: 11px;
+    color: var(--text-light);
+    font-weight: 500;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .summary-card .value {
+    font-family: 'Gowun Batang', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--navy);
+  }
+
+  .summary-card.best .value {
+    color: #047857;
+  }
+
+  /* 푸터 안내 */
+  .footer-note {
+    margin-top: 16px;
+    padding: 16px 24px;
+    background: rgba(255,255,255,0.6);
+    border-radius: 12px;
+    font-size: 12px;
+    color: var(--text-light);
+    line-height: 1.8;
+  }
+
+  .footer-note strong {
+    color: var(--text);
+  }
+
+  /* 반응형 */
+  @media (max-width: 768px) {
+    body { padding: 10px; }
+    .header { padding: 24px 20px 18px; border-radius: 14px 14px 0 0; }
+    .header h1 { font-size: 20px; }
+    .info-bar { padding: 10px 16px; gap: 12px; }
+    .summary { flex-direction: column; padding: 16px; }
+    .table-wrap { border-radius: 0 0 14px 14px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="header-badge">🎓 2026 계성 교대 동문회</div>
+    <h1>1차 정모 날짜 투표</h1>
+    <p>가능한 날짜를 클릭하여 ○ 표시해 주세요 · 3월 25일 ~ 4월 3일</p>
+  </div>
+
+  <div class="info-bar">
+    <span class="tag">🕐 17:00~</span>
+    <span class="tag">📍 장소 추후 공지</span>
+    <span>회칙에 따라 연 4회 정규모임 중 1차 (투표로 날짜 확정 예정)</span>
+  </div>
+
+  <div class="table-wrap">
+    <table id="voteTable">
+      <thead>
+        <tr id="headerRow"></tr>
+      </thead>
+      <tbody id="voteBody"></tbody>
+      <tfoot>
+        <tr id="totalRow"></tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div class="summary" id="summaryArea"></div>
+
+  <div class="footer-note">
+    <strong>📋 회칙 안내</strong><br>
+    · <strong>이 투표로 정해지는 날짜가 1차 정모</strong>이며, 소요 비용은 1차 정모로 인정됩니다<br>
+    · 정규모임 불참 시 당일 1차 1인 지출액의 100% 현금 보상<br>
+    · 정규모임 2차까지 경비 100% 지원, 나머지 50% 지원<br>
+    · 총무는 따로 회비를 줄이지 않고 연말 상품권(10만원)으로 감사 대신함
+  </div>
+</div>
+
+<script>
+  // 회원 명단
+  const members = [
+    '강준식', '김무경', '김상한', '김희준', '박은성', '설성석',
+    '손병욱', '여한기', '윤상훈', '이성일', '주찬일', '채진수', '현기훈'
+  ];
+
+  // 날짜 생성 (3/25 ~ 4/3)
+  const dates = [];
+  const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
+  for (let d = 25; d <= 31; d++) {
+    const dt = new Date(2026, 2, d); // 3월
+    dates.push({ month: 3, day: d, dow: dayNames[dt.getDay()], isWeekend: dt.getDay() === 0 || dt.getDay() === 6 });
+  }
+  for (let d = 1; d <= 3; d++) {
+    const dt = new Date(2026, 3, d); // 4월
+    dates.push({ month: 4, day: d, dow: dayNames[dt.getDay()], isWeekend: dt.getDay() === 0 || dt.getDay() === 6 });
+  }
+
+  // 투표 상태 저장 (localStorage 사용 안 함 — 메모리에 유지)
+  const votes = {};
+  members.forEach(m => { votes[m] = new Array(dates.length).fill(false); });
+
+  // 헤더 렌더링
+  function renderHeader() {
+    const row = document.getElementById('headerRow');
+    row.innerHTML = '<th class="name-col">이름</th>';
+    dates.forEach(d => {
+      const cls = d.isWeekend ? 'weekend' : '';
+      row.innerHTML += `<th class="${cls}">
+        <div class="date-head">${d.month}/${d.day}</div>
+        <div class="day-label">${d.dow}요일</div>
+        <div class="time-label">17:00~</div>
+      </th>`;
+    });
+  }
+
+  // 바디 렌더링
+  function renderBody() {
+    const body = document.getElementById('voteBody');
+    body.innerHTML = '';
+    members.forEach((name, mi) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td class="name-cell">${name}</td>`;
+      dates.forEach((d, di) => {
+        const td = document.createElement('td');
+        const btn = document.createElement('button');
+        btn.className = 'vote-cell' + (d.isWeekend ? ' weekend-cell' : '') + (votes[name][di] ? ' selected' : '');
+        btn.setAttribute('aria-label', `${name} ${d.month}/${d.day}`);
+        btn.addEventListener('click', () => toggleVote(name, di, btn));
+        td.appendChild(btn);
+        tr.appendChild(td);
+      });
+      body.appendChild(tr);
+    });
+  }
+
+  // 토글
+  function toggleVote(name, dateIdx, btn) {
+    votes[name][dateIdx] = !votes[name][dateIdx];
+    btn.classList.toggle('selected');
+    updateTotals();
+  }
+
+  // 합계 업데이트
+  function updateTotals() {
+    const totals = dates.map((_, di) => members.reduce((sum, m) => sum + (votes[m][di] ? 1 : 0), 0));
+    const maxVal = Math.max(...totals, 0);
+
+    const row = document.getElementById('totalRow');
+    row.innerHTML = '<td class="name-cell">참석 가능</td>';
+    totals.forEach((t, i) => {
+      const cls = (t > 0 && t === maxVal) ? ' class="max-count"' : '';
+      row.innerHTML += `<td${cls}>${t > 0 ? t : '-'}</td>`;
+    });
+
+    // 요약 영역
+    const totalVotes = totals.reduce((a, b) => a + b, 0);
+    const bestDates = [];
+    if (maxVal > 0) {
+      totals.forEach((t, i) => {
+        if (t === maxVal) bestDates.push(`${dates[i].month}/${dates[i].day}(${dates[i].dow})`);
+      });
+    }
+    const voterCount = members.filter(m => votes[m].some(v => v)).length;
+
+    const summary = document.getElementById('summaryArea');
+    summary.innerHTML = `
+      <div class="summary-card">
+        <div class="label">투표 참여</div>
+        <div class="value">${voterCount} / ${members.length}명</div>
+      </div>
+      <div class="summary-card best">
+        <div class="label">최다 참석 가능일</div>
+        <div class="value">${bestDates.length > 0 ? bestDates.join(', ') : '투표를 시작해주세요'}</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">최다 참석 인원</div>
+        <div class="value">${maxVal > 0 ? maxVal + '명' : '-'}</div>
+      </div>
+    `;
+  }
+
+  // 초기 렌더링
+  renderHeader();
+  renderBody();
+  updateTotals();
+</script>
+</body>
+</html>
