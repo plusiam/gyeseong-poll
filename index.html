@@ -417,7 +417,7 @@
   <div class="header">
     <div class="header-badge">🎓 2026 계성 교대 동문회</div>
     <h1>기훈이 형님 집들이 날짜 선정</h1>
-    <p>가능한 날짜를 클릭하여 ○ 표시해 주세요 · 3월 25일 ~ 4월 3일</p>
+    <p>가능한 날짜를 클릭하여 ○ 표시해 주세요 · 3월 25일 ~ 4월 5일</p>
   </div>
 
   <div class="info-bar">
@@ -455,14 +455,14 @@
     '손병욱', '여한기', '윤상훈', '이성일', '주찬일', '채진수', '현기훈'
   ];
 
-  // 날짜 생성 (3/25 ~ 4/3)
+  // 날짜 생성 (3/25 ~ 4/5)
   const dates = [];
   const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
   for (let d = 25; d <= 31; d++) {
     const dt = new Date(2026, 2, d); // 3월
     dates.push({ month: 3, day: d, dow: dayNames[dt.getDay()], isWeekend: dt.getDay() === 0 || dt.getDay() === 6 });
   }
-  for (let d = 1; d <= 3; d++) {
+  for (let d = 1; d <= 5; d++) {
     const dt = new Date(2026, 3, d); // 4월
     dates.push({ month: 4, day: d, dow: dayNames[dt.getDay()], isWeekend: dt.getDay() === 0 || dt.getDay() === 6 });
   }
